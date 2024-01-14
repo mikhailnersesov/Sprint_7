@@ -2,11 +2,12 @@ package ru.praktikum.sprint7;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
+import ru.praktikum.sprint7.step.CourierSteps;
 
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.hamcrest.Matchers.notNullValue;
 
-public class CourierLogingTestSuite extends BaseTest {
+public class CourierLogingSuiteTest extends BaseTest {
     @Test
     public void testLoginCourierWithCorrectDataIsSuccessfull() {
         String login = RandomStringUtils.randomAlphabetic(10);

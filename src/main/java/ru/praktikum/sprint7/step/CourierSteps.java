@@ -13,18 +13,19 @@ public class CourierSteps {
         this.courierClient = courierClient;
     }
 
-    @Step("Send GET request to /api/users/me")
+    @Step("createCourier Method")
     public ValidatableResponse createCourier(String login, String password, String firstName) {
         CourierCreateRequest courierCreateRequest = new CourierCreateRequest();
         courierCreateRequest.setLogin(login);
         courierCreateRequest.setPassword(password);
         courierCreateRequest.setFirstName(firstName);
-        return courierClient.create(courierCreateRequest).then();
+        return courierClient.sendPostRequestCourier(courierCreateRequest).then();
     }
+    @Step("loginCourier Method")
     public ValidatableResponse loginCourier(String login, String password) {
         CourierLoginRequest courierLoginRequest = new CourierLoginRequest();
         courierLoginRequest.setLogin(login);
         courierLoginRequest.setPassword(password);
-        return courierClient.login(courierLoginRequest).then();
+        return courierClient.sendPostRequestCourierLogin(courierLoginRequest).then();
     }
 }
