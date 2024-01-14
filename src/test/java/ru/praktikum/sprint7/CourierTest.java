@@ -1,31 +1,34 @@
 package ru.praktikum.sprint7;
 
-import io.restassured.http.ContentType;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
-
-import static io.restassured.RestAssured.given;
-import static ru.praktikum.sprint7.config.RestConfig.BASE_URI;
+import ru.praktikum.sprint7.client.CourierClient;
+import ru.praktikum.sprint7.dto.CourierCreateRequest;
 
 public class CourierTest {
+    private CourierClient courierClient;
+
+    @Before
+    public void setUp() {
+        courierClient = new CourierClient();
+    }
+
     @Test
     public void createCourier() {
         String login = RandomStringUtils.randomAlphabetic(10);
-        Boolean result = given()
-                .baseUri(BASE_URI)
-                .contentType(ContentType.JSON)
-                .body("{\n" +
-                        "    \"login\": \"" + login + "\",\n" +
-                        "    \"password\": \"1234\",\n" +
-                        "    \"firstName\": \"saske\"\n" +
-                        "}")
-                .when()
-                .post("/courier")
+
+        CourierCreateRequest request = new CourierCreateRequest();
+        request.setLogin(login);
+        request.setPassword("1234");
+        request.setFirstName("Anatoliy");
+
+        Boolean result = courierClient.create(request)
                 .then()
                 .statusCode(201)
                 .extract()
                 .path("ok");
-        Assert.assertEquals(true,result);
+        Assert.assertEquals(true, result);
     }
 }
