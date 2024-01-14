@@ -1,22 +1,12 @@
 package ru.praktikum.sprint7;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Before;
 import org.junit.Test;
-import ru.praktikum.sprint7.client.CourierClient;
-import ru.praktikum.sprint7.step.CourierSteps;
 
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.hamcrest.Matchers.notNullValue;
 
-public class CourierLogingTestSuite {
-    private CourierSteps courierSteps;
-
-    @Before
-    public void setUp() {
-        courierSteps = new CourierSteps(new CourierClient());
-    }
-
+public class CourierLogingTestSuite extends BaseTest {
     @Test
     public void testLoginCourierWithCorrectDataIsSuccessfull() {
         String login = RandomStringUtils.randomAlphabetic(10);
