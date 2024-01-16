@@ -9,7 +9,6 @@ import static ru.praktikum.sprint7.config.RestConfig.BASE_URI;
 public abstract class RestClient {
     protected RequestSpecification getdefaultRequestSpecification() {
         return given()
-                .log().all()
                 .baseUri(BASE_URI)
                 .contentType(ContentType.JSON);
     }

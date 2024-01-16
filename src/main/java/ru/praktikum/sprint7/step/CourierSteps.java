@@ -2,6 +2,7 @@ package ru.praktikum.sprint7.step;
 
 import io.qameta.allure.Step;
 import io.restassured.response.ValidatableResponse;
+import io.restassured.response.ValidatableResponseOptions;
 import ru.praktikum.sprint7.client.CourierClient;
 import ru.praktikum.sprint7.dto.CourierCreateRequest;
 import ru.praktikum.sprint7.dto.CourierLoginRequest;
@@ -28,4 +29,5 @@ public class CourierSteps {
         courierLoginRequest.setPassword(password);
         return courierClient.sendPostRequestCourierLogin(courierLoginRequest).then();
     }
-}
+    }
+

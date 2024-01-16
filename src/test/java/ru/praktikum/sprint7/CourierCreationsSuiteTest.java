@@ -4,20 +4,26 @@ import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.apache.http.HttpStatus.*;
 import static org.hamcrest.Matchers.is;
 import static ru.praktikum.sprint7.dataProvider.CourierGenerator.*;
 
 public class CourierCreationsSuiteTest extends BaseTest {
-
     @Test
     @DisplayName("Успешное создание курьера с корректными данными")
     @Description("Данный тест покрывает следующие кейсы: 1) курьера можно создать; 3) чтобы создать курьера, нужно передать в ручку все обязательные поля; 4) запрос возвращает правильный код ответа (201 Created); 5) успешный запрос возвращает ok: true") // описание теста
     public void createCourierSucessfully() {
-        courierSteps
+        statusCode = courierSteps
                 .createCourier(CORRECT_FIRST_LOGIN, CORRECT_PASSWORD, CORRECT_FIRSTNAME)
                 .statusCode(SC_CREATED) //TODO: add method and change to CourierStepsResponse
-                .body("ok", is(true));
+                .body("ok", is(true))
+                .and()
+                .extract().statusCode();
+        login = CORRECT_FIRST_LOGIN;
+        password = CORRECT_PASSWORD;
     }
     @Test
     @DisplayName("Ошибка при создании двух одинаковых курьеров")
@@ -28,7 +34,8 @@ public class CourierCreationsSuiteTest extends BaseTest {
         courierSteps
                 .createCourier(CORRECT_DUPLICATE_LOGIN, CORRECT_PASSWORD, CORRECT_FIRSTNAME)
                 .statusCode(SC_CONFLICT) //TODO: add method and change to CourierStepsResponse
-                .body("message", is("Этот логин уже используется")); // bug: вместо "Этот логин уже используется" приходит "Этот логин уже используется. Попробуйте другой."
+                .body("message", is("Этот логин уже используется")) // bug: вместо "Этот логин уже используется" приходит "Этот логин уже используется. Попробуйте другой."
+;
     }
     @Test
     @DisplayName("Создание курьера без отправки поля 'login'")
