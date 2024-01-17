@@ -20,11 +20,25 @@ import static ru.praktikum.sprint7.dataProvider.CourierGenerator.*;
 
 public class CourierCreationTests {
     protected static List<Integer> ids = new ArrayList();
-    protected Integer id;
     protected static CourierSteps courierSteps;
+    protected Integer id;
     String login = RandomStringUtils.randomAlphabetic(10);
     String password = RandomStringUtils.randomAlphabetic(10);
     String firstName = RandomStringUtils.randomAlphabetic(10);
+
+    @AfterClass
+    @Issue("BUG-3")
+    public static void tearDown() {
+        for (int i = 0; i < ids.size(); i++) {
+            if (ids.get(i) != null) {
+                courierSteps
+                        .deleteCourierRequest(ids.get(i))
+                        .statusCode(SC_OK)  // bug: вместо 200, возвращается 404 "Курьера с таким id нет"
+                        .body("ok", is(true));
+                ;
+            }
+        }
+    }
 
     @Before
     public void setUp() {
@@ -43,20 +57,6 @@ public class CourierCreationTests {
             System.out.println("no courier was created - nothing to save");
         }
         ids.add(id);
-    }
-
-    @AfterClass
-    @Issue("BUG-3")
-    public static void tearDown() {
-        for (int i = 0; i < ids.size(); i++) {
-            if (ids.get(i) != null) {
-                courierSteps
-                        .deleteCourierRequest(ids.get(i))
-                        .statusCode(SC_OK)  // bug: вместо 200, возвращается 404 "Курьера с таким id нет"
-                        .body("ok", is(true));
-                ;
-            }
-        }
     }
 
     @Test

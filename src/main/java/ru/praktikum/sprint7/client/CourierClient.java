@@ -14,6 +14,7 @@ public class CourierClient extends RestClient {
                 .when()
                 .post("/courier");
     }
+
     @Step("Send POST request to /api/v1/courier/login")
     public Response sendPostRequestCourierLogin(CourierLoginRequest courierLoginRequest) {
         return getdefaultRequestSpecification()
@@ -21,11 +22,12 @@ public class CourierClient extends RestClient {
                 .when()
                 .post("/courier/login");
     }
+
     @Step("Send DELETE request to /api/v1/courier/:id")
     public Response sendDeleteRequestCourierDeletion(CourierDeleteRequest courierDeleteRequest) {
         return getdefaultRequestSpecification()
                 .body(courierDeleteRequest)
                 .when()
-                .post("/courier/:id");
+                .delete("/courier/:id");
     }
 }

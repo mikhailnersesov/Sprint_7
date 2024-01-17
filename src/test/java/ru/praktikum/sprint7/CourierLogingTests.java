@@ -29,6 +29,21 @@ public class CourierLogingTests {
     String secondPassword = RandomStringUtils.randomAlphabetic(10);
     String firstName = RandomStringUtils.randomAlphabetic(10);
 
+    @AfterClass
+    @Issue("BUG-3")
+    public static void tearDown() {
+        for (int i = 0; i < ids.size(); i++) {
+            if (ids.get(i) != null) {
+                courierSteps
+                        .deleteCourierRequest(ids.get(i))
+                        .log().all()
+                        .statusCode(SC_OK)  // bug: вместо 200, возвращается 500 "Курьера с таким id нет"
+                        .body("ok", is(true));
+                ;
+            }
+        }
+    }
+
     @Before
     public void setUp() {
         courierSteps = new CourierSteps(new CourierClient());
@@ -46,20 +61,6 @@ public class CourierLogingTests {
             System.out.println("no courier was created - nothing to save");
         }
         ids.add(id);
-    }
-
-    @AfterClass
-    @Issue("BUG-3")
-    public static void tearDown() {
-        for (int i = 0; i < ids.size(); i++) {
-            if (ids.get(i) != null) {
-                courierSteps
-                        .deleteCourierRequest(ids.get(i))
-                        .statusCode(SC_OK)  // bug: вместо 200, возвращается 404 "Курьера с таким id нет"
-                        .body("ok", is(true));
-                ;
-            }
-        }
     }
 
     @Test

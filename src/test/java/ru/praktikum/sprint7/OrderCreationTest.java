@@ -18,7 +18,8 @@ import static org.hamcrest.Matchers.notNullValue;
 @RunWith(Parameterized.class)
 public class OrderCreationTest {
     protected static OrdersSteps ordersSteps;
-
+    @Parameterized.Parameter(0)
+    public List<String> color;
     String firstName = RandomStringUtils.randomAlphabetic(10);
     String lastName = RandomStringUtils.randomAlphabetic(10);
     String address = RandomStringUtils.randomAlphabetic(10);
@@ -27,13 +28,6 @@ public class OrderCreationTest {
     int rentTime = Integer.parseInt(RandomStringUtils.randomNumeric(1));
     String deliveryDate = "2022-02-24";
     String comment = RandomStringUtils.randomAlphabetic(10);
-    @Parameterized.Parameter(0)
-    public List<String> color;
-
-    @Before
-    public void setUp() {
-        ordersSteps = new OrdersSteps(new OrdersClient());
-    }
 
     @Parameterized.Parameters
     public static Object[] data() {
@@ -45,13 +39,17 @@ public class OrderCreationTest {
         };
     }
 
+    @Before
+    public void setUp() {
+        ordersSteps = new OrdersSteps(new OrdersClient());
+    }
+
     @Test
     @DisplayName("Успешное создание заказа")
     @Description("Данный тест покрывает следующие кейсы: 1) можно указать один из цветов — BLACK или GREY; 2) можно указать оба цвета; 3) можно совсем не указывать цвет; 4) тело ответа содержит track.")
-    public void createCourierSucessfully() {
+    public void createOrderSucessfully() {
         ordersSteps
                 .createOrdersRequest(firstName, lastName, address, metroStation, phone, rentTime, deliveryDate, comment, color)
-                .log().all()
                 .statusCode(SC_CREATED)
                 .body("track", notNullValue());
     }
