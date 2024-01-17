@@ -1,6 +1,7 @@
 package ru.praktikum.sprint7;
 
 import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
 import io.qameta.allure.junit4.DisplayName;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.After;
@@ -66,6 +67,7 @@ public class CourierCreationsTests {
     @Test
     @DisplayName("Ошибка при создании двух одинаковых курьеров")
     @Description("Данный тест покрывает следующие кейсы: 2) нельзя создать двух одинаковых курьеров; 4) запрос возвращает правильный код ответа(409 Conflict); 7) если создать пользователя с логином, который уже есть, возвращается ошибка.")
+    @Issue("BUG-1")
     public void createSecondSameCourierFailes() {
         courierSteps
                 .createCourierRequest(login, password, firstName);

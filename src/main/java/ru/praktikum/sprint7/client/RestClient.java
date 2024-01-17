@@ -13,6 +13,7 @@ public abstract class RestClient {
     protected RequestSpecification getdefaultRequestSpecification() {
         return given()
                 .log().all()
+                //TODO: delete before submission
                 .baseUri(BASE_URI)
                 .contentType(ContentType.JSON);
     }
