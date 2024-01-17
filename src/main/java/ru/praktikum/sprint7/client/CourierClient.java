@@ -26,8 +26,8 @@ public class CourierClient extends RestClient {
     @Step("Send DELETE request to /api/v1/courier/:id")
     public Response sendDeleteRequestCourierDeletion(CourierDeleteRequest courierDeleteRequest) {
         return getdefaultRequestSpecification()
-                .body(courierDeleteRequest)
+                .log().all()
                 .when()
-                .delete("/courier/:id");
+                .delete("/courier/" + courierDeleteRequest.getId());
     }
 }

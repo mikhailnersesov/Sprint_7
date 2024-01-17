@@ -32,7 +32,7 @@ public class CourierSteps {
     }
 
     @Step("Удаление курьера")
-    public ValidatableResponse deleteCourierRequest(int id) {
+    public ValidatableResponse deleteCourierRequest(Integer id) {
         CourierDeleteRequest courierDeleteRequest = new CourierDeleteRequest();
         courierDeleteRequest.setId(id);
         return courierClient.sendDeleteRequestCourierDeletion(courierDeleteRequest).then();

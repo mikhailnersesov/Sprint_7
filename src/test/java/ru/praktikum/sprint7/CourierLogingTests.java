@@ -30,14 +30,13 @@ public class CourierLogingTests {
     String firstName = RandomStringUtils.randomAlphabetic(10);
 
     @AfterClass
-    @Issue("BUG-3")
     public static void tearDown() {
         for (int i = 0; i < ids.size(); i++) {
             if (ids.get(i) != null) {
                 courierSteps
                         .deleteCourierRequest(ids.get(i))
                         .log().all()
-                        .statusCode(SC_OK)  // bug: вместо 200, возвращается 500 "Курьера с таким id нет"
+                        .statusCode(SC_OK)
                         .body("ok", is(true));
                 ;
             }

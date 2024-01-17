@@ -16,6 +16,7 @@ import java.util.List;
 
 import static org.apache.http.HttpStatus.*;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 import static ru.praktikum.sprint7.dataProvider.CourierGenerator.*;
 
 public class CourierCreationTests {
@@ -27,13 +28,13 @@ public class CourierCreationTests {
     String firstName = RandomStringUtils.randomAlphabetic(10);
 
     @AfterClass
-    @Issue("BUG-3")
     public static void tearDown() {
         for (int i = 0; i < ids.size(); i++) {
             if (ids.get(i) != null) {
                 courierSteps
                         .deleteCourierRequest(ids.get(i))
-                        .statusCode(SC_OK)  // bug: вместо 200, возвращается 404 "Курьера с таким id нет"
+                        .log().all()
+                        .statusCode(SC_OK)
                         .body("ok", is(true));
                 ;
             }

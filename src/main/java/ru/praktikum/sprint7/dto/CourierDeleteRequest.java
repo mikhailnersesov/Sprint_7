@@ -1,20 +1,20 @@
 package ru.praktikum.sprint7.dto;
 
 public class CourierDeleteRequest {
-    private int id;
+    private Integer id;
 
-    public CourierDeleteRequest(int id) {
+    public CourierDeleteRequest(Integer id) {
         this.id = id;
     }
 
     public CourierDeleteRequest() {
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 }
