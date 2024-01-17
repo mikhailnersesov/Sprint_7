@@ -2,12 +2,9 @@ package ru.praktikum.sprint7.client;
 
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
-import org.junit.runner.Request;
 import ru.praktikum.sprint7.dto.CourierCreateRequest;
+import ru.praktikum.sprint7.dto.CourierDeleteRequest;
 import ru.praktikum.sprint7.dto.CourierLoginRequest;
-
-import static org.apache.http.HttpStatus.SC_BAD_REQUEST;
-import static org.hamcrest.Matchers.is;
 
 public class CourierClient extends RestClient {
     @Step("Send POST request to /api/v1/courier")
@@ -17,12 +14,18 @@ public class CourierClient extends RestClient {
                 .when()
                 .post("/courier");
     }
-
     @Step("Send POST request to /api/v1/courier/login")
     public Response sendPostRequestCourierLogin(CourierLoginRequest courierLoginRequest) {
         return getdefaultRequestSpecification()
                 .body(courierLoginRequest)
                 .when()
                 .post("/courier/login");
+    }
+    @Step("Send DELETE request to /api/v1/courier/:id")
+    public Response sendDeleteRequestCourierDeletion(CourierDeleteRequest courierDeleteRequest) {
+        return getdefaultRequestSpecification()
+                .body(courierDeleteRequest)
+                .when()
+                .post("/courier/:id");
     }
 }

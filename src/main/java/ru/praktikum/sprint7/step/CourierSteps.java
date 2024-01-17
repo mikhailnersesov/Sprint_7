@@ -4,6 +4,7 @@ import io.qameta.allure.Step;
 import io.restassured.response.ValidatableResponse;
 import ru.praktikum.sprint7.client.CourierClient;
 import ru.praktikum.sprint7.dto.CourierCreateRequest;
+import ru.praktikum.sprint7.dto.CourierDeleteRequest;
 import ru.praktikum.sprint7.dto.CourierLoginRequest;
 
 import static org.apache.http.HttpStatus.SC_OK;
@@ -15,7 +16,7 @@ public class CourierSteps {
         this.courierClient = courierClient;
     }
 
-    @Step("createCourier Method")
+    @Step("Создание курьера")
     public ValidatableResponse createCourierRequest(String login, String password, String firstName) {
         CourierCreateRequest courierCreateRequest = new CourierCreateRequest();
         courierCreateRequest.setLogin(login);
@@ -23,13 +24,18 @@ public class CourierSteps {
         courierCreateRequest.setFirstName(firstName);
         return courierClient.sendPostRequestCourier(courierCreateRequest).then();
     }
-
-    @Step("loginCourier Method")
+    @Step("Логин курьера в системе")
     public ValidatableResponse loginCourierRequest(String login, String password) {
         CourierLoginRequest courierLoginRequest = new CourierLoginRequest();
         courierLoginRequest.setLogin(login);
         courierLoginRequest.setPassword(password);
         return courierClient.sendPostRequestCourierLogin(courierLoginRequest).then();
+    }
+    @Step("Удаление курьера")
+    public ValidatableResponse deleteCourierRequest(int id) {
+        CourierDeleteRequest courierDeleteRequest = new CourierDeleteRequest();
+        courierDeleteRequest.setId(id);
+        return courierClient.sendDeleteRequestCourierDeletion(courierDeleteRequest).then();
     }
 }
 

@@ -18,10 +18,10 @@ import static org.apache.http.HttpStatus.*;
 import static org.hamcrest.Matchers.is;
 import static ru.praktikum.sprint7.dataProvider.CourierGenerator.*;
 
-public class CourierCreationsTests {
+public class CourierCreationTests {
     protected static List<Integer> ids = new ArrayList();
     protected Integer id;
-    protected CourierSteps courierSteps;
+    protected static CourierSteps courierSteps;
     String login = RandomStringUtils.randomAlphabetic(10);
     String password = RandomStringUtils.randomAlphabetic(10);
     String firstName = RandomStringUtils.randomAlphabetic(10);
@@ -32,7 +32,7 @@ public class CourierCreationsTests {
     }
 
     @After
-    public void getCourierIdIfWasSucessfullyCreated2() {
+    public void getCourierIdIfWasSucessfullyCreated() {
         try {
             id = courierSteps
                     .loginCourierRequest(login, password)
@@ -46,12 +46,17 @@ public class CourierCreationsTests {
     }
 
     @AfterClass
+    @Issue("BUG-3")
     public static void tearDown() {
         for (int i = 0; i < ids.size(); i++) {
-            System.out.println("pass");
-            // delete
+            if (ids.get(i) != null) {
+                courierSteps
+                        .deleteCourierRequest(ids.get(i))
+                        .statusCode(SC_OK)  // bug: вместо 200, возвращается 404 "Курьера с таким id нет"
+                        .body("ok", is(true));
+                ;
+            }
         }
-
     }
 
     @Test
@@ -138,5 +143,5 @@ public class CourierCreationsTests {
                 .statusCode(SC_CREATED)
                 .body("ok", is(true));
     }
-    //separate URL bauen nur die Adresse Suche, die Komponenten sind;
+
 }
