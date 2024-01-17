@@ -1,8 +1,10 @@
 package ru.praktikum.sprint7;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.Test;
 import ru.praktikum.sprint7.client.CourierClient;
 import ru.praktikum.sprint7.step.CourierSteps;
 
@@ -10,21 +12,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.apache.http.HttpStatus.SC_OK;
+import static org.hamcrest.Matchers.notNullValue;
 
-public abstract class BaseTest {
+public class CourierLogingTests {
     protected CourierSteps courierSteps;
-    protected Integer id;
-    protected String login;
-    protected String password;
-
     protected static List<Integer> ids = new ArrayList();
-
+    protected Integer id;
+    String login = RandomStringUtils.randomAlphabetic(10);
+    String password = RandomStringUtils.randomAlphabetic(10);
+    String firstName = RandomStringUtils.randomAlphabetic(10);
     @Before
     public void setUp() {
         courierSteps = new CourierSteps(new CourierClient());
     }
-
-    public void getCourierIdIfWasSucessfullyCreated(String login, String password) {
+    @After
+    public void getCourierIdIfWasSucessfullyCreated2() {
         try {
             id = courierSteps
                     .loginCourierRequest(login, password)
@@ -44,5 +46,16 @@ public abstract class BaseTest {
             // delete
         }
 
+    }
+    @Test
+    public void testLoginCourierWithCorrectDataIsSuccessfull() {
+
+        courierSteps
+                .createCourierRequest(login, password, firstName);
+
+        courierSteps
+                .loginCourierRequest(login, password)
+                .statusCode(SC_OK)
+                .body("id", notNullValue());
     }
 }

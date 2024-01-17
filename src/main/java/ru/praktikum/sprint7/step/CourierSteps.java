@@ -31,6 +31,5 @@ public class CourierSteps {
         courierLoginRequest.setPassword(password);
         return courierClient.sendPostRequestCourierLogin(courierLoginRequest).then();
     }
-
 }
 
