@@ -1,20 +1,11 @@
 package ru.praktikum.sprint7.dto;
 
+
+import lombok.*;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class CourierDeleteRequest {
     private Integer id;
-
-    public CourierDeleteRequest(Integer id) {
-        this.id = id;
-    }
-
-    public CourierDeleteRequest() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 }
